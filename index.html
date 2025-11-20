@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Soft Pastel Pink — Animated UI</title>
+
+  <!-- Optional: Google Font (Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & Base Styles
+       ========================= */
+    :root{
+      --bg: #FDF2F6;           /* very soft pastel pink background */
+      --card: #ffffff;
+      --muted: #9b8b98;
+      --accent-1: #FFDDEE;     /* light pink accent */
+      --accent-2: #F7C7D9;     /* rose pastel */
+      --accent-strong: #FF6FA8;/* stronger pink for CTA */
+      --glass: rgba(255,255,255,0.6);
+      --radius: 14px;
+      --shadow-soft: 0 6px 18px rgba(120,100,120,0.08);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(circle at 10% 10%, rgba(255,220,235,0.4), transparent 10%),
+                  radial-gradient(circle at 90% 90%, rgba(247,199,217,0.25), transparent 10%),
+                  var(--bg);
+      color:#2b2430;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:48px 20px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      gap:32px;
+      min-height:100vh;
+    }
+
+    /* Respect user's reduced motion preference */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important}
+    }
+
+    /* ================
+       Layout
+       ================ */
+    .container{
+      width:100%;
+      max-width:1100px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:32px;
+      align-items:start;
+    }
+
+    /* ================
+       Header / Hero
+       ================ */
+    .hero{
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow:var(--shadow-soft);
+      position:relative;
+      overflow:visible;
+    }
+
+    .hero .title{
+      font-size:28px;
+      font-weight:600;
+      margin:0 0 8px 0;
+      letter-spacing: -0.2px;
+    }
+    .hero .lead{
+      margin:0 0 22px 0;
+      color:var(--muted);
+      font-weight:300;
+    }
+
+    /* floating pill (decorative) */
+    .hero .floating-pill{
+      position:absolute;
+      right:-28px;
+      top:-28px;
+      width:160px;
+      height:160px;
+      border-radius:32px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 12px 30px rgba(250,180,220,0.13);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:600;
+      color:#6b2540;
+      transform-origin:center;
+      /* animation: subtle float */
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%{ transform: translateY(0px) rotate(-2deg) }
+      50%{ transform: translateY(-12px) rotate(1.5deg) }
+      100%{ transform: translateY(0px) rotate(-2deg) }
+    }
+
+    /* CTA button with animated gradient */
+    .cta{
+      display:inline-block;
+      padding:12px 20px;
+      border-radius:999px;
+      font-weight:600;
+      text-decoration:none;
+      color:white;
+      background: linear-gradient(90deg, var(--accent-strong), #FF9ACD 60%);
+      box-shadow: 0 8px 20px rgba(255,110,160,0.18);
+      transition: transform .24s cubic-bezier(.2,.9,.3,1), box-shadow .24s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .cta:hover{ transform: translateY(-4px); box-shadow:0 18px 34px rgba(255,110,160,0.2) }
+
+    /* subtle animated sheen that slides across the button */
+    .cta::after{
+      content:"";
+      position:absolute;
+      left:-120%;
+      top:0;
+      height:100%;
+      width:120%;
+      background:linear-gradient(120deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05), rgba(255,255,255,0.15));
+      transform: skewX(-18deg);
+      transition: none;
+      animation: sheen 3.2s linear infinite;
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+    @keyframes sheen{
+      0%{ left:-120% }
+      50%{ left:120% }
+      100%{ left:-120% }
+    }
+
+    /* ==================
+       Info Cards
+       ================== */
+    .cards{
+      margin-top:20px;
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:18px;
+      width: calc(50% - 9px);
+      box-shadow: 0 8px 20px rgba(120,100,120,0.04);
+      transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s, opacity .4s;
+      opacity:0;
+      transform: translateY(18px);
+      animation: card-in .6s forwards;
+    }
+
+    /* Staggered entrance for cards */
+    .card:nth-child(1){ animation-delay: 0.12s }
+    .card:nth-child(2){ animation-delay: 0.22s }
+    .card:nth-child(3){ animation-delay: 0.32s }
+    .card:nth-child(4){ animation-delay: 0.42s }
+
+    @keyframes card-in{
+      to{ opacity:1; transform: translateY(0) }
+    }
+
+    .card h4{ margin:0 0 8px 0; font-size:15px; font-weight:600 }
+    .card p{ margin:0; color:var(--muted); font-size:13px; line-height:1.45 }
+
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(120,80,120,0.08) }
+
+    /* Right column: preview pane */
+    .preview{
+      position:sticky;
+      top:48px;
+      align-self:start;
+    }
+    .mock{
+      width:420px;
+      height:320px;
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+      box-shadow: var(--shadow-soft);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      overflow:hidden;
+    }
+
+    .mock .nav{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;background:rgba(200,170,190,0.55);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+    }
+    .mock .content{
+      margin-top:6px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:10px;
+      border-radius:12px;
+      background: linear-gradient(90deg, rgba(255,245,249,0.6), rgba(255,250,251,0.4));
+      box-shadow: 0 8px 30px rgba(240,200,220,0.06);
+    }
+
+    .avatar{
+      width:72px; height:72px; border-radius:12px;
+      background: linear-gradient(135deg, #fff0f6, #ffddec);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:600; color:#7a2b4a; font-size:20px;
+      transform-origin:center;
+      animation: float 5.5s ease-in-out infinite;
+    }
+
+    .mock .meta h3{ margin:0; font-size:16px }
+    .mock .meta p{ margin:4px 0 0 0; color:var(--muted); font-size:13px }
+
+    /* small animated underline */
+    .underline{
+      height:3px;
+      width:64px;
+      border-radius:999px;
+      background: linear-gradient(90deg, #FFD8EB, #FF9ACD);
+      transform-origin:left;
+      animation: slide-underline 2.8s ease-in-out infinite;
+      margin-top:8px;
+    }
+    @keyframes slide-underline{
+      0%{ transform: scaleX(0.3) translateX(-8px) }
+      50%{ transform: scaleX(1) translateX(0) }
+      100%{ transform: scaleX(0.3) translateX(8px) }
+    }
+
+    /* ==================
+       Responsive tweaks
+       ================== */
+    @media (max-width:980px){
+      .container{ grid-template-columns: 1fr; max-width:760px }
+      .mock{ width:100% }
+    }
+
+    @media (max-width:560px){
+      body{ padding:28px 14px }
+      .card{ width:100% }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- LEFT: hero + cards -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="floating-pill">Aesthetic</div>
+
+      <h1 id="hero-title" class="title">Soft Pastel Pink · Minimal UI</h1>
+      <p class="lead">Bersih, lapang, dan feminin — cocok untuk portofolio, brand skincare, atau blog personal.</p>
+
+      <a class="cta" href="#explore" role="button">Jelajahi Template</a>
+
+      <div class="cards" id="explore" style="margin-top:26px;">
+        <article class="card">
+          <h4>Tipografi Elegan</h4>
+          <p>Gunakan font tipis seperti Poppins untuk kesan modern dan bersih — ukuran heading besar, body ringan.</p>
+        </article>
+
+        <article class="card">
+          <h4>Ruang Putih</h4>
+          <p>Whitespace memberikan napas pada layout — biarkan elemen ‘bernafas’ agar tampilan terasa mewah.</p>
+        </article>
+
+        <article class="card">
+          <h4>Aksen Kuning Pink</h4>
+          <p>Aksen pink lembut pada tombol dan tarjetas membuat fokus visual tanpa berlebihan.</p>
+        </article>
+
+        <article class="card">
+          <h4>Ilustrasi Minimal</h4>
+          <p>Line-art sederhana atau bentuk geometris kecil menambah karakter tanpa mengacaukan UI.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- RIGHT: mock preview -->
+    <aside class="preview" aria-label="mockup preview">
+      <div class="mock" role="img" aria-label="mockup tampilan website warna pink">
+        <div class="nav" aria-hidden="true">
+          <div class="dot"></div><div class="dot" style="opacity:0.6"></div><div class="dot" style="opacity:0.4"></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="meta">
+              <h3>Nama Brand</h3>
+              <p>Soft pastel theme • Clean layout</p>
+            </div>
+            <div class="underline" aria-hidden="true"></div>
+          </div>
+
+          <div class="avatar">SA</div>
+        </div>
+
+        <div class="content" style="margin-top:auto;">
+          <div style="flex:1">
+            <h4 style="margin:0 0 6px 0">Produk Unggulan</h4>
+            <p style="margin:0;color:var(--muted);font-size:13px">Deskripsi singkat produk — ringkas dan manis.</p>
+          </div>
+          <div>
+            <a class="cta" href="#" style="padding:10px 14px; font-size:13px">Beli</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+</body>
+</html>
